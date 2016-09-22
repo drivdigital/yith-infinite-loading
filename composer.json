@@ -1,0 +1,7 @@
+{
+    "name": "yratof/yith-infinite-loading-sooner",
+    "type": "wordpress-plugin",
+    "require": {
+        "composer/installers": "*"
+    }
+}
