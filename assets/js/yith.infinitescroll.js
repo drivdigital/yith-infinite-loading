@@ -117,6 +117,7 @@
                 offset  = $( opts.itemSelector ).last().offset();
 
             if ( ! loading && ! finished && w.scrollTop() >= 20 ) {
+                console.log( 'Loading...' );
                 main_ajax();
             }
         })
