@@ -57,12 +57,7 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 */
 		public function __construct() {
-
-			// enqueue scripts
-			$enable = ( ! YITH_INFS_Admin::get_option( 'yith-infs-enable' ) ) ? 'yes' : YITH_INFS_Admin::get_option( 'yith-infs-enable' );
-			if( $enable == 'yes' ) {
-				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			}
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 
 		/**
@@ -77,7 +72,7 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 
 			$min        = ( ! defined('SCRIPT_DEBUG') || ! SCRIPT_DEBUG ) ? '.min' : '';
 
-			wp_enqueue_style( 'yith-infs-style', YITH_INFS_ASSETS_URL . '/css/frontend.css' );
+			wp_enqueue_style( 'yith-infs-style', YITH_INFS_ASSETS_URL . '/css/frontend.css', array(), $this->version );
 
 			wp_enqueue_script( 'yith-infinitescroll', YITH_INFS_ASSETS_URL . '/js/yith.infinitescroll'.$min.'.js', array('jquery'), $this->version, true );
 			wp_enqueue_script( 'yith-infs', YITH_INFS_ASSETS_URL . '/js/yith-infs'.$min.'.js', array('jquery', 'yith-infinitescroll'), $this->version, true );
@@ -99,11 +94,11 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		public function options_to_script(){
 
 			// get options
-			$navSelector        = ( ! YITH_INFS_Admin::get_option( 'yith-infs-navselector' ) ) ? 'nav.navigation' : YITH_INFS_Admin::get_option( 'yith-infs-navselector' );
-			$nextSelector       = ( ! YITH_INFS_Admin::get_option( 'yith-infs-nextselector' ) ) ? 'nav.navigation a.next' : YITH_INFS_Admin::get_option( 'yith-infs-nextselector' );
-			$itemSelector       = ( ! YITH_INFS_Admin::get_option( 'yith-infs-itemselector' ) ) ? 'article.post' : YITH_INFS_Admin::get_option( 'yith-infs-itemselector' );
-			$contentSelector    = ( ! YITH_INFS_Admin::get_option( 'yith-infs-contentselector' ) ) ? '#main' : YITH_INFS_Admin::get_option( 'yith-infs-contentselector' );
-			$loader             = ( ! YITH_INFS_Admin::get_option( 'yith-infs-loader-image' ) ) ? YITH_INFS_ASSETS_URL . '/images/loader.gif' : YITH_INFS_Admin::get_option( 'yith-infs-loader-image' );
+			$navSelector        = yinfs_get_option( 'yith-infs-navselector', 'nav.navigation' );
+			$nextSelector       = yinfs_get_option( 'yith-infs-nextselector', 'nav.navigation a.next' );
+			$itemSelector       = yinfs_get_option( 'yith-infs-itemselector', 'article.post' );
+			$contentSelector    = yinfs_get_option( 'yith-infs-contentselector', '#main' );
+			$loader             = yinfs_get_option( 'yith-infs-loader-image', YITH_INFS_ASSETS_URL . '/images/loader.gif' );
 
 			wp_localize_script( 'yith-infs', 'yith_infs', array (
 				'navSelector'       => $navSelector,

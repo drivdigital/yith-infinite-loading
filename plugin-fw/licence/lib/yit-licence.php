@@ -672,7 +672,7 @@ if ( ! class_exists( 'YIT_Licence' ) ) {
                 '105'           => __( 'Invalid security key', 'yith-plugin-fw' ),
                 '106'           => __( 'License key has expired', 'yith-plugin-fw' ),
                 '107'           => __( 'License key has been banned', 'yith-plugin-fw' ),
-                '108'           => __( 'Current product is not included with your membership key', 'woocommerce-software-add-on' ),
+                '108'           => __( 'Current product is not included in your YITH Club Subscription key', 'yith-plugin-fw' ),
                 '200'           => sprintf( '<strong>%s</strong>! %s',__( 'Great', 'yith-plugin-fw' ), __( 'License successfully activated', 'yith-plugin-fw' ) ),
                 'deactivated'   => sprintf( '%s <strong>%s</strong>', __( 'License key deactivated for website', 'woocommerce-software-add-on' ), isset( $instance ) ? $instance : '' )
             );

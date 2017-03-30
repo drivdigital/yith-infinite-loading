@@ -3,9 +3,6 @@
 
     $.fn.yit_infinitescroll = function (options) {
 
-        // reset
-        $( window ).unbind( 'yith_infs_start' );
-
         var opts = $.extend({
 
                 nextSelector   : false,
@@ -48,19 +45,24 @@
                 // params
                 url         : desturl,
                 dataType    : 'html',
+                cache       : false,
                 success     : function (data) {
 
                     var obj  = $( data),
                         elem = obj.find( opts.itemSelector ),
-                        next = obj.find( opts.nextSelector );
+                        next = obj.find( opts.nextSelector ),
+                        current_url = desturl;
 
                     if( next.length ) {
                         desturl = next.attr( 'href' );
                     }
                     else {
+                        // set finished var true
                         finished = true;
+                        $( document ).trigger( 'yith-infs-scroll-finished' );
                     }
-                    // recalculate element position
+
+                    // recalculate element position in shop
                     if( ! last_elem.hasClass( 'last' ) && opts.is_shop ) {
                         position_elem( last_elem, columns, elem );
                     }
@@ -69,14 +71,17 @@
 
                     $( '.yith-infs-loader' ).remove();
 
-                    $(document).trigger( 'yith_infs_adding_elem' );
+                    $(document).trigger( 'yith_infs_adding_elem', [elem, current_url] );
 
                     elem.addClass( 'yith-infs-animated' );
 
                     setTimeout( function(){
                         loading = false;
+                        // remove animation class
                         elem.removeClass( 'yith-infs-animated' );
-                        $(document).trigger( 'yith_infs_added_elem' );
+                        
+                        $(document).trigger( 'yith_infs_added_elem', [elem, current_url] );
+                        
                     }, 1000 );
 
                 }
@@ -107,17 +112,20 @@
             });
         };
 
-        // scroll event
+        // set event
         $( window ).on( 'scroll touchstart', function (){
             $(this).trigger('yith_infs_start');
         });
 
         $( window ).on( 'yith_infs_start', function(){
-            var w       = $(this),
-                offset  = $( opts.itemSelector ).last().offset();
+            var t       = $(this),
+                elem  = $( opts.itemSelector ).last();
 
-            if ( ! loading && ! finished && w.scrollTop() >= 20 ) {
-                console.log( 'Loading...' );
+            if( typeof elem == 'undefined' ) {
+                return;
+            }
+
+            if ( ! loading && ! finished && ( t.scrollTop() + t.height() ) >= ( elem.offset().top + elem.height() ) ) {
                 main_ajax();
             }
         })

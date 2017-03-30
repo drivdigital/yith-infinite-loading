@@ -40,12 +40,14 @@ if ( !class_exists( 'YIT_Plugin_Panel_Sidebar' ) ) {
 
         /**
          * default priority for Remote Widgets
+         *
          * @type int
          */
         public $default_remote_widget_priority = 40;
 
         /**
          * parent panel
+         *
          * @var YIT_Plugin_Panel
          */
         public $panel;
@@ -164,6 +166,10 @@ if ( !class_exists( 'YIT_Plugin_Panel_Sidebar' ) ) {
          * @author     Leanza Francesco <leanzafrancesco@gmail.com>
          */
         public function get_remote_widgets() {
+            $load_remote_widgets = apply_filters( 'yit_panel_sidebar_load_remote_widgets', true );
+            if ( !$load_remote_widgets )
+                return array();
+
             $remote_widgets = get_transient( self::$transient_remote_widgets );
             $updated        = get_transient( self::$transient_updated_remote_widgets );
             $is_debug       = defined( 'YIT_FW_REMOTE_WIDGETS_DEBUG' ) && YIT_FW_REMOTE_WIDGETS_DEBUG;
@@ -178,74 +184,81 @@ if ( !class_exists( 'YIT_Plugin_Panel_Sidebar' ) ) {
             $updated_expiration = DAY_IN_SECONDS; // update frequency
 
             $remote_xml = wp_remote_get( $this->_remote_widget_xml );
-            if ( !is_wp_error( $remote_xml ) && isset( $remote_xml[ 'response' ][ 'code' ] ) && '200' == $remote_xml[ 'response' ][ 'code' ] ) {
-                $xml_data           = new SimpleXmlElement( $remote_xml[ 'body' ] );
-                $xml_remote_widgets = isset( $xml_data->widget ) ? $xml_data->widget : array();
+            if ( !is_wp_error( $remote_xml ) && isset( $remote_xml[ 'response' ][ 'code' ] ) && '200' == $remote_xml[ 'response' ][ 'code' ] && class_exists( 'SimpleXmlElement' ) ) {
+                try {
+                    // suppress all XML errors when loading the document
+                    libxml_use_internal_errors( true );
 
-                $enabled_args = array(
-                    'title',
-                    'icon',
-                    'content',
-                    'class',
-                    'title_class',
-                    'badge',
-                    'badge_text',
-                    'image',
-                    'image_class',
-                    'priority',
-                    'starting',
-                    'expiration',
-                );
+                    $xml_data           = new SimpleXmlElement( $remote_xml[ 'body' ] );
+                    $xml_remote_widgets = isset( $xml_data->widget ) ? $xml_data->widget : array();
 
-                $last_remote_priority = $this->default_remote_widget_priority;
+                    $enabled_args = array(
+                        'title',
+                        'icon',
+                        'content',
+                        'class',
+                        'title_class',
+                        'badge',
+                        'badge_text',
+                        'image',
+                        'image_class',
+                        'priority',
+                        'starting',
+                        'expiration',
+                    );
 
-                foreach ( $xml_remote_widgets as $xml_widget ) {
-                    if ( !isset( $xml_widget->id ) )
-                        continue;
+                    $last_remote_priority = $this->default_remote_widget_priority;
 
-                    $widget_id    = (string)$xml_widget->id;
-                    $widget_array = array();
-                    foreach ( $enabled_args as $key ) {
-                        if ( isset( $xml_widget->$key ) ) {
-                            $widget_array[ $key ] = (string)$xml_widget->$key;
-                        } else {
-                            if ( $key == 'priority' ) {
-                                $widget_array[ $key ] = $last_remote_priority;
-                                $last_remote_priority += 10;
+                    foreach ( $xml_remote_widgets as $xml_widget ) {
+                        if ( !isset( $xml_widget->id ) )
+                            continue;
+
+                        $widget_id    = (string) $xml_widget->id;
+                        $widget_array = array();
+                        foreach ( $enabled_args as $key ) {
+                            if ( isset( $xml_widget->$key ) ) {
+                                $widget_array[ $key ] = (string) $xml_widget->$key;
+                            } else {
+                                if ( $key == 'priority' ) {
+                                    $widget_array[ $key ] = $last_remote_priority;
+                                    $last_remote_priority += 10;
+                                }
                             }
                         }
+                        $remote_widgets[ $widget_id ] = $widget_array;
                     }
-                    $remote_widgets[ $widget_id ] = $widget_array;
-                }
 
-                $xml_expiration = isset( $xml_data->expiration ) ? (string)$xml_data->expiration : '';
-                if ( !empty( $xml_expiration ) ) {
-                    $expiration = strtotime( $xml_expiration ) - strtotime( 'now' );
-                    // if the XML is expired removes widgets
-                    if ( $expiration < 1 )
-                        $remote_widgets = array();
+                    $xml_expiration = isset( $xml_data->expiration ) ? (string) $xml_data->expiration : '';
+                    if ( !empty( $xml_expiration ) ) {
+                        $expiration = strtotime( $xml_expiration ) - strtotime( 'now' );
+                        // if the XML is expired removes widgets
+                        if ( $expiration < 1 )
+                            $remote_widgets = array();
 
-                    $is_urgent = isset( $xml_data->urgent ) ? !!$xml_data->urgent : false;
-                    $is_urgent = true;
-                    if ( !$is_urgent ) {
-                        $four_days_random = mt_rand( 0, 4 * DAY_IN_SECONDS );
-                        $expiration += $four_days_random;
-                    } else {
-                        /**
-                         * - - - - - U R G E N T - - - - -
-                         * it will be updated the exact day, BUT in different time! :)
-                         * [to prevent too many request at the same time]
-                         */
-                        $one_day_random = mt_rand( 0, DAY_IN_SECONDS );
-                        $expiration += $one_day_random;
+                        $is_urgent = isset( $xml_data->urgent ) ? !!$xml_data->urgent : false;
+                        $is_urgent = true;
+                        if ( !$is_urgent ) {
+                            $four_days_random = mt_rand( 0, 4 * DAY_IN_SECONDS );
+                            $expiration += $four_days_random;
+                        } else {
+                            /**
+                             * - - - - - U R G E N T - - - - -
+                             * it will be updated the exact day, BUT in different time! :)
+                             * [to prevent too many request at the same time]
+                             */
+                            $one_day_random = mt_rand( 0, DAY_IN_SECONDS );
+                            $expiration += $one_day_random;
+                        }
                     }
-                }
 
-                $four_days_random = mt_rand( 0, 4 * DAY_IN_SECONDS );
+                    $four_days_random = mt_rand( 0, 4 * DAY_IN_SECONDS );
 
-                /* to prevent multiple request if it's expired */
-                if ( $expiration < 1 ) {
-                    $expiration = 1 * DAY_IN_SECONDS + $four_days_random;
+                    /* to prevent multiple request if it's expired */
+                    if ( $expiration < 1 ) {
+                        $expiration = 1 * DAY_IN_SECONDS + $four_days_random;
+                    }
+                } catch ( Exception $e ) {
+
                 }
 
                 //$updated_expiration = 30 * DAY_IN_SECONDS + $four_days_random;

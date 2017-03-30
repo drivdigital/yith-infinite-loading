@@ -256,6 +256,24 @@
             </div>
         </div>
     </div>
+    <div class="section section-even clear" style="background: url(<?php echo YITH_INFS_URL.'assets/images/'?>05-bg.png) no-repeat #fff; background-position: 85% 100%">
+        <div class="landing-container">
+            <div class="col-1">
+                <img src="<?php echo YITH_INFS_URL.'assets/images/' ?>05.png" alt="05" />
+            </div>
+            <div class="col-2">
+                <div class="section-title">
+                    <img src="<?php echo YITH_INFS_URL.'assets/images/' ?>05-icon.png" alt="Pagination" />
+                    <h2>PAGE URL</h2>
+                </div>
+                <p>
+                    The main purpose of the infinite scrolling is to allow users to consult several pages contents
+                    without waiting for the new loading of the webpage. Now, page url becomes dynamic too thanks to its
+                    automatic update when the contents of next page are loaded.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <div class="section section-cta section-odd">
         <div class="landing-container">

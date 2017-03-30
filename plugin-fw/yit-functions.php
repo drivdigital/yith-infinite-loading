@@ -646,14 +646,27 @@ if ( ! function_exists ( 'yit_ie_version' ) ) {
      *
      * @return int|float
      * @since  1.0.0
-     * @author Andrea Grillo <andrea.grillo@yithemes.com>
+     * @author Andrea Grillo <andrea.grillo@yithemes.com>, Andrea Frascaspata<andrea.frascaspata@yithemes.com>
      */
-    function yit_ie_version () {
-        preg_match ( '/MSIE ([0-9]\.[0-9])/', $_SERVER[ 'HTTP_USER_AGENT' ], $reg );
-        if ( ! isset( $reg[ 1 ] ) ) {
+    function yit_ie_version() {
+
+        if ( ! isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
             return - 1;
-        } else {
-            return floatval ( $reg[ 1 ] );
+        }
+        preg_match( '/MSIE ([0-9]+\.[0-9])/', $_SERVER['HTTP_USER_AGENT'], $reg );
+
+        if ( ! isset( $reg[1] ) ) // IE 11 FIX
+        {
+            preg_match( '/rv:([0-9]+\.[0-9])/', $_SERVER['HTTP_USER_AGENT'], $reg );
+            if ( ! isset( $reg[1] ) ) {
+                return - 1;
+            }
+            else {
+                return floatval( $reg[1] );
+            }
+        }
+        else {
+            return floatval( $reg[1] );
         }
     }
 }

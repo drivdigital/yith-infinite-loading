@@ -93,11 +93,10 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		/**
 		 * The name for the plugin options
 		 *
-		 * @access public
-		 * @var string $testimonial_post_type
+		 * @access protected
 		 * @since 1.0.0
 		 */
-		protected static $_plugin_options = 'yit_infs_options';
+		protected static $_plugin_options = YITH_INFS_OPTION_NAME;
 
 
 		/**
@@ -146,7 +145,7 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * @access public
 		 */
 		public function enqueue_style() {
-			if ( isset( $_GET['page'] ) && $_GET['page'] == 'yith_infs_panel' ) {
+			if ( isset( $_GET['page'] ) && $_GET['page'] == $this->_panel_page ) {
 				wp_enqueue_style( 'yith-infs-admin', YITH_INFS_ASSETS_URL . '/css/admin.css' );
 			}
 		}
@@ -278,21 +277,12 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * @since 1.0.0
 		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @param $option string
+		 * @param $default mixed
 		 * @return mixed
 		 */
-		public static function get_option( $option ) {
-			// get all options
-			$options = get_option( self::$_plugin_options );
-
-			if( isset( $options[ $option ] ) ) {
-				return $options[ $option ];
-			}
-
-			return false;
+		public static function get_option( $option, $default = false ) {
+			return yinfs_get_option( $option, $default );
 		}
-
-
-
 	}
 }
 /**

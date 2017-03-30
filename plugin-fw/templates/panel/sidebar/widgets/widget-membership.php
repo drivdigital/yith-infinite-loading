@@ -8,17 +8,22 @@
  * http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-exit;
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
 } // Exit if accessed directly
 ?>
 
 <div class="membership-wrapper">
-    <div class="membership-total-price">$10.000+</div>
-    <div class="membership-offer-text">of themes and plugins for WooCommerce</div>
-    <div class="membership-offer-text2">with a</div>
-    <div class="membership-offer-sale-text">95% OFF</div>
+    <div class="membership-row">
+        <div class="membership-total-price">$10.000+</div>
+        <div class="membership-offer-text">worth of themes<br/>and plugins<br/>for WooCommerce</div>
+    </div>
+    <div class="membership-row">
+        <div class="membership-offer-text2">on a</div>
+        <div class="membership-offer-sale-text">95% OFF DISCOUNT</div>
+    </div>
     <div class="membership-buttons">
-        <a class="button green" href="//yithemes.com/themes/membership/annual-yithemes-club-subscription/" target="_blank">Discover More!</a>
+        <a class="button green" href="//yithemes.com/themes/membership/annual-yithemes-club-subscription/"
+           target="_blank">Discover More!</a>
     </div>
 </div>

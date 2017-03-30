@@ -20,8 +20,8 @@
     right    : 0;
 }
 
-#yit-panel-sidebar.yith-panel-sidebar-hidden #yit-panel-sidebar-widgets-container{
-    display: none;
+#yit-panel-sidebar.yith-panel-sidebar-hidden #yit-panel-sidebar-widgets-container {
+    display : none;
 }
 
 .yit-panel-sidebar-widget-wrapper {
@@ -226,45 +226,56 @@ img.yit-panel-sidebar-widget-despacho-image {
 
 #yit-panel-sidebar-membership-widget .yit-panel-sidebar-widget-content {
     background          : transparent url('../images/widgets/membership-bg.png') no-repeat;
-    background-position : 100% 180%;
+    background-position : 105% 160%;
     background-size     : 50%;
+}
+
+#yit-panel-sidebar-membership-widget .membership-row {
+    margin-bottom: 20px;
+    clear  : both;
+    overflow: hidden;
 }
 
 #yit-panel-sidebar-membership-widget .membership-total-price {
     font-size   : 25px;
     font-weight : 700;
-    display     : inline-block;
+    display     : block;
+    width       : 50%;
+    box-sizing  : border-box;
+    float       : left;
+    line-height : 37px;
 
 }
 
 #yit-panel-sidebar-membership-widget .membership-offer-text {
-    display        : inline-block;
+    display        : block;
     font-size      : 10px;
     text-transform : uppercase;
-    width          : 130px;
+    width          : 50%;
     line-height    : 14px;
+    box-sizing     : border-box;
+    float          : left;
 }
 
 #yit-panel-sidebar-membership-widget .membership-offer-text2 {
-    display        : inline-block;
+    display        : block;
     font-size      : 10px;
     text-transform : uppercase;
-    width          : 36%;
     text-align     : right;
     vertical-align : middle;
-    margin         : 17px 0;
+    float          : left;
 }
 
 #yit-panel-sidebar-membership-widget .membership-offer-sale-text {
-    display        : inline-block;
-    font-size      : 24px;
+    display        : block;
+    font-size      : 22px;
     color          : #ff6340;
     text-transform : uppercase;
-    width          : 55%;
     text-align     : left;
     vertical-align : middle;
-    margin         : 17px 0;
-    font-weight    : 700;
+    margin-left    : 6px;
+    font-weight    : 600;
+    float          : left;
 }
 
 #yit-panel-sidebar-membership-widget .membership-buttons {
@@ -318,12 +329,12 @@ ul.yit-panel-sidebar-links-list li:before {
     border-radius : 50%;
 }
 
-#yit-panel-sidebar-action-hide:hover .yit-panel-sidebar-action-title{
-    color: #000;
+#yit-panel-sidebar-action-hide:hover .yit-panel-sidebar-action-title {
+    color : #000;
 }
 
-#yit-panel-sidebar-action-hide:hover .yit-panel-sidebar-action-hide-icon{
-    background: #000;
+#yit-panel-sidebar-action-hide:hover .yit-panel-sidebar-action-hide-icon {
+    background : #000;
 }
 
 .hide-on-click .yit-panel-sidebar-action-hide-icon:before {

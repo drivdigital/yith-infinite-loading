@@ -66,17 +66,52 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 */
 		public function __construct() {
 			// Class admin
-			if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )  {
+			if ( $this->is_admin() )  {
+
+			    // require classes
+                require_once( 'class.yith-infs-admin.php' );
+
 				// Load Plugin Framework
 				add_action( 'after_setup_theme', array( $this, 'plugin_fw_loader' ), 1 );
 
 				YITH_INFS_Admin();
 			}
-			else {
+			elseif( $this->load_frontend() ){
+
+			    // require classes
+                require_once( 'class.yith-infs-frontend.php' );
+
 				// Frontend class
 				YITH_INFS_Frontend();
 			}
 		}
+
+        /**
+         * Check if is admin
+         *
+         * @since 1.0.6
+         * @author Francesco Licandro
+         * @return boolean
+         */
+        public function is_admin(){
+            $check_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+            $check_context = isset( $_REQUEST['context'] ) && $_REQUEST['context'] == 'frontend';
+
+            return is_admin() && ! ( $check_ajax && $check_context );
+        }
+
+        /**
+         * Check if load frontend class
+         *
+         * @since 1.0.6
+         * @author Francesco Licandro
+         * @return boolean
+         */
+        public function load_frontend(){
+            $enable = yinfs_get_option( 'yith-infs-enable', 'yes' ) == 'yes';
+
+            return $enable;
+        }
 
 		/**
 		 * Load Plugin Framework
@@ -88,7 +123,11 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 */
 		public function plugin_fw_loader() {
 			if ( ! defined( 'YIT_CORE_PLUGIN' ) ) {
-				require_once( YITH_INFS_DIR . '/plugin-fw/yit-plugin.php' );
+                global $plugin_fw_data;
+                if( ! empty( $plugin_fw_data ) ){
+                    $plugin_fw_file = array_shift( $plugin_fw_data );
+                    require_once( $plugin_fw_file );
+                }
 			}
 		}
 	}

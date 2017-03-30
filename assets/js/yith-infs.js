@@ -27,6 +27,8 @@ jQuery(document).ready( function($) {
     $( yith_infs.contentSelector ).yit_infinitescroll( infinite_scroll );
 
     $(document).on( 'yith-wcan-ajax-filtered', function(){
+        // reset
+        $( window ).unbind( 'yith_infs_start' );
         $( yith_infs.contentSelector ).yit_infinitescroll( infinite_scroll );
     });
 });
