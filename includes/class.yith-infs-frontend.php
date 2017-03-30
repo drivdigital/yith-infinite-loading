@@ -93,11 +93,11 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		 */
 		public function options_to_script(){
 
-			// get options
-			$navSelector        = yinfs_get_option( 'yith-infs-navselector', 'nav.navigation' );
-			$nextSelector       = yinfs_get_option( 'yith-infs-nextselector', 'nav.navigation a.next' );
-			$itemSelector       = yinfs_get_option( 'yith-infs-itemselector', 'article.post' );
-			$contentSelector    = yinfs_get_option( 'yith-infs-contentselector', '#main' );
+			// get options, but default back to what it should be, not what you think it should be
+			$navSelector        = yinfs_get_option( 'yith-infs-navselector', 'nav.woocommerce-pagination, .navigation.pagination' );
+			$nextSelector       = yinfs_get_option( 'yith-infs-nextselector', 'nav.woocommerce-pagination a.next, .navigation.pagination a.next' );
+			$itemSelector       = yinfs_get_option( 'yith-infs-itemselector', '#main li.product' );
+			$contentSelector    = yinfs_get_option( 'yith-infs-contentselector', '#content' );
 			$loader             = yinfs_get_option( 'yith-infs-loader-image', YITH_INFS_ASSETS_URL . '/images/loader.gif' );
 
 			wp_localize_script( 'yith-infs', 'yith_infs', array (
