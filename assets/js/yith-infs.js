@@ -1,5 +1,5 @@
 /**
- * yith-scroll.js
+ * yith-infs.js
  *
  * @author Your Inspiration Themes
  * @package YITH Infinite Scrolling
@@ -9,26 +9,31 @@
 jQuery(document).ready( function($) {
     "use strict";
 
-    if( typeof yith_infs == 'undefined' ) {
-        return;
+    if( typeof yith_infs_premium !== 'undefined' && yith_infs_premium.options ) {
+
+        $.fn.init_infinitescroll = function() {
+            $.each( yith_infs_premium.options, function (key, value) {
+
+                if( ! ( $( value.nextSelector ).length && $( value.navSelector ).length && $( value.itemSelector ).length && $( value.contentSelector ).length ) ) {
+                    return;
+                }
+
+                $.yit_infinitescroll(value);
+            });
+        };
+
+        $.fn.init_infinitescroll();
+
+        $(document).on( 'yith-wcan-ajax-loading', function(){
+            $( '.yith-infs-button-wrapper' ).remove();
+        });
+
+        $(document).on( 'yith-wcan-ajax-filtered', function(){
+            // reset
+            $( window ).unbind( 'yith_infs_start' );
+            // initialize 
+            $.fn.init_infinitescroll();
+        });
+
     }
-    
-
-    // set options
-    var infinite_scroll = {
-            'nextSelector'      : yith_infs.nextSelector,
-            'navSelector'       : yith_infs.navSelector,
-            'itemSelector'      : yith_infs.itemSelector,
-            'contentSelector'   : yith_infs.contentSelector,
-            'loader'            : '<img src="' + yith_infs.loader + '">',
-            'is_shop'           : yith_infs.shop  
-       };
-
-    $( yith_infs.contentSelector ).yit_infinitescroll( infinite_scroll );
-
-    $(document).on( 'yith-wcan-ajax-filtered', function(){
-        // reset
-        $( window ).unbind( 'yith_infs_start' );
-        $( yith_infs.contentSelector ).yit_infinitescroll( infinite_scroll );
-    });
 });

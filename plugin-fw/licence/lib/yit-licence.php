@@ -691,7 +691,7 @@ if ( ! class_exists( 'YIT_Licence' ) ) {
          * @author   Andrea Grillo <andrea.grillo@yithemes.com>
          */
         public function display_product_name( $product_name ){
-            return str_replace( array( 'YITH', 'WooCommerce', 'Premium', 'Theme' ), '', $product_name );
+            return str_replace( array( 'for WooCommerce', 'YITH', 'WooCommerce', 'Premium', 'Theme' ), '', $product_name );
         }
 
         public function get_number_of_membership_products(){

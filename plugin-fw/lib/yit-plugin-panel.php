@@ -114,7 +114,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
             if( ! isset( $admin_page_hooks['yit_plugin_panel'] ) ){
                 $position = apply_filters( 'yit_plugins_menu_item_position', '62.32' );
                 //  YITH Plugins text must not be translated
-                add_menu_page( 'yit_plugin_panel', 'YITH Plugins', 'manage_options', 'yit_plugin_panel', NULL, YIT_CORE_PLUGIN_URL . '/assets/images/yithemes-icon.png', $position );
+                current_user_can( 'manage_options' ) && add_menu_page( 'yit_plugin_panel', 'YITH Plugins', 'manage_options', 'yit_plugin_panel', NULL, YIT_CORE_PLUGIN_URL . '/assets/images/yithemes-icon.png', $position );
             }
         }
 

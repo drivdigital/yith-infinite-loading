@@ -57,7 +57,7 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 */
 		public function __construct() {
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 
 		/**
@@ -80,7 +80,6 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 			if( ! ( defined( 'YITH_INFS_PREMIUM' ) && YITH_INFS_PREMIUM ) ) {
 				$this->options_to_script();
 			}
-
 		}
 
 		/**
