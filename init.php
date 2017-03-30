@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: YITH Infinite Scrolling Premium
+ * Plugin Name: YITH Infinite Scrolling
  * Plugin URI: https://yithemes.com/themes/plugins/yith-infinite-scrolling/
  * Description: YITH Infinite Scrolling add infinite scroll to your page.
  * Version: 1.0.7
@@ -10,7 +10,7 @@
  * Domain Path: /languages/
  *
  * @author Yithemes
- * @package YITH Infinite Scrolling Premium
+ * @package YITH Infinite Scrolling
  * @version 1.0.7
  */
 /*  Copyright 2015  Your Inspiration Themes  ( email: plugins@yithemes.com )
@@ -35,10 +35,13 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 }
 
-if ( ! function_exists( 'yit_deactive_free_version' ) ) {
-	require_once 'plugin-fw/yit-deactive-plugin.php';
+function yith_infs_install_free_admin_notice() {
+	?>
+	<div class="error">
+		<p><?php _e( 'You can\'t activate the free version of YITH Infinite Scrolling while you are using the premium one.', 'yith-infinite-scrolling' ); ?></p>
+	</div>
+<?php
 }
-yit_deactive_free_version( 'YITH_INFS_FREE_INIT', plugin_basename( __FILE__ ) );
 
 if ( ! function_exists( 'yith_plugin_registration_hook' ) ) {
 	require_once 'plugin-fw/yit-plugin-registration-hook.php';
@@ -50,8 +53,8 @@ if ( ! defined( 'YITH_INFS_VERSION' ) ){
 	define( 'YITH_INFS_VERSION', '1.0.7' );
 }
 
-if ( ! defined( 'YITH_INFS_PREMIUM' ) ) {
-	define( 'YITH_INFS_PREMIUM', '1' );
+if ( ! defined( 'YITH_INFS_FREE_INIT' ) ) {
+	define( 'YITH_INFS_FREE_INIT', plugin_basename( __FILE__ ) );
 }
 
 if ( ! defined( 'YITH_INFS' ) ) {
@@ -74,41 +77,43 @@ if ( ! defined( 'YITH_INFS_TEMPLATE_PATH' ) ) {
 	define( 'YITH_INFS_TEMPLATE_PATH', YITH_INFS_DIR . 'templates' );
 }
 
+
 if ( ! defined( 'YITH_INFS_ASSETS_URL' ) ) {
 	define( 'YITH_INFS_ASSETS_URL', YITH_INFS_URL . 'assets' );
 }
 
-if ( ! defined( 'YITH_INFS_INIT' ) ) {
-	define( 'YITH_INFS_INIT', plugin_basename( __FILE__ ) );
-}
-
 if( ! defined( 'YITH_INFS_OPTION_NAME' ) ) {
-    define( 'YITH_INFS_OPTION_NAME', 'yit_infs_options' );
-}
-
-if ( ! defined( 'YITH_INFS_SLUG' ) ) {
-	define( 'YITH_INFS_SLUG', 'yith-infinite-scrolling' );
-}
-
-if ( ! defined( 'YITH_INFS_SECRET_KEY' ) ) {
-	define( 'YITH_INFS_SECRET_KEY', 'eoTgIND9moLoW4mkCtdF' );
+	define( 'YITH_INFS_OPTION_NAME', 'yit_infs_options' );
 }
 
 /* Plugin Framework Version Check */
 if( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_INFS_DIR . 'plugin-fw/init.php' ) ) {
-    require_once( YITH_INFS_DIR . 'plugin-fw/init.php' );
+	require_once( YITH_INFS_DIR . 'plugin-fw/init.php' );
 }
 yit_maybe_plugin_fw_loader( YITH_INFS_DIR  );
 
-function yith_infs_premium_init() {
+function yith_infs_init() {
 
 	load_plugin_textdomain( 'yith-infinite-scrolling', false, dirname( plugin_basename( __FILE__ ) ). '/languages/' );
 
 	// Load required classes and functions
-    require_once( 'includes/functions.yith-infs.php' );
+	require_once( 'includes/functions.yith-infs.php' );
 	require_once( 'includes/class.yith-infs.php' );
 
 	// Let's start the game!
 	YITH_INFS();
 }
-add_action( 'plugins_loaded', 'yith_infs_premium_init', 11 );
+add_action( 'yith_infs_init', 'yith_infs_init' );
+
+
+function yith_infs_install() {
+
+	if ( defined( 'YITH_INFS_PREMIUM' ) ) {
+		add_action( 'admin_notices', 'yith_infs_install_free_admin_notice' );
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+	}
+	else {
+		do_action( 'yith_infs_init' );
+	}
+}
+add_action( 'plugins_loaded', 'yith_infs_install', 11 );

@@ -31,21 +31,3 @@ if( ! function_exists( 'yinfs_get_option' ) ) {
         return $default;
     }
 }
-
-if( ! function_exists( 'yinfs_get_preset_loader' ) ) {
-    /**
-     * Get preset loader
-     *
-     * @since 1.0.6
-     * @author Francesco Licandro
-     * @return array
-     */
-    function yinfs_get_preset_loader(){
-        return apply_filters( 'yith_infs_preset_loader', array(
-            'loader'    => YITH_INFS_ASSETS_URL . '/images/loader.gif',
-            'loader1'   => YITH_INFS_ASSETS_URL . '/images/loader1.gif',
-            'loader2'   => YITH_INFS_ASSETS_URL . '/images/loader2.gif',
-            'loader3'   => YITH_INFS_ASSETS_URL . '/images/loader3.gif',
-        ));
-    }
-}
