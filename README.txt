@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: yithemes
-Tags: yith, woocommerce, infinite scrolling, woocommerce infinite scrolling, yit, blog infinite scrolling, blog, infinite, scrolling, ajax pagination, infinite scroll, load more
+Tags: yith, infinite scrolling, ajax pagination, infinite scroll, load more
 Requires at least: 4.0
-Tested up to: 4.7
-Stable tag: 1.0.7
+Tested up to: 4.8.2
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,13 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 1. The plugin admin page.
 
 == Changelog ==
+
+= 1.0.8 =
+
+* New: Support to WordPress 4.8.2.
+* New: Support to WooCommerce 3.1.2.
+* Update: Plugin Core.
+* Fix: Use relative url for main AJAX action.
 
 = 1.0.7 =
 
@@ -83,7 +90,7 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-inf
 
 * It's compatible with WooCommerce?
 
-Yes, of course. This plugin is fully compatible with WooCommerce 2.6 and previous versions until 2.2.
+Yes, of course. This plugin is fully compatible with latest WooCommerce version and previous versions until 2.2.
 
 == Suggestions ==
 
@@ -95,13 +102,14 @@ If you have suggestions about how to improve YITH Infinite Scrolling, you can [w
 
 * English
 
-If you have created your own language pack, or have an update for an existing one, you can send [gettext PO and MO file](http://codex.wordpress.org/Translating_WordPress "Translating WordPress")
-[use](http://yithemes.com/contact/ "Your Inspiration Themes") so we can bundle it into YITH Infinite Scrolling languages.
+If you can't find this plugin in your language and want to translate it, use the dedicated tool at [Translating WordPress](https://translate.wordpress.org/locale/it/default/wp-plugins/yith-infinite-scrolling).
+Or, if you have created your own language pack, or have an update for an existing one, you can send it as an email attachment from our [Contacts page](http://yithemes.com/contact) and we will bundle into YITH Infinite Scrolling.
 
 == Upgrade notice ==
 
-= 1.0.7 =
+= 1.0.8 =
 
-* Added: Support to WordPress 4.7.
-* Added: Support to WooCommerce 2.6.9.
-* Updated: Plugin Core.
+* New: Support to WordPress 4.8.2.
+* New: Support to WooCommerce 3.1.2.
+* Update: Plugin Core.
+* Fix: Use relative url for main AJAX action.

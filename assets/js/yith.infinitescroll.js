@@ -39,6 +39,9 @@
             if( opts.loader )
                     $( opts.navSelector ).after( '<div class="yith-infs-loader">' + opts.loader + '</div>' );
             loading = true;
+            // decode url to prevent error
+            desturl = decodeURIComponent(desturl);
+            desturl = desturl.replace(/^(?:\/\/|[^\/]+)*\//, "/");
 
             // ajax call
             $.ajax({
