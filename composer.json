@@ -1,5 +1,5 @@
 {
-    "name": "yratof/yith-infinite-loading",
+    "name": "drivdigital/yith-infinite-loading",
     "type": "wordpress-plugin",
     "require": {
         "composer/installers": "*"
